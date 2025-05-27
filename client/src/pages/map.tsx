@@ -4,7 +4,7 @@ import SearchBar from "@/components/SearchBar";
 import PropertySidebar from "@/components/PropertySidebar";
 import PropertyModal from "@/components/PropertyModal";
 import AnalyticsDashboard from "@/components/AnalyticsDashboard";
-import AIResponsePanel from "@/components/AIResponsePanel";
+import AIReportCard from "@/components/AIReportCard";
 import { Button } from "@/components/ui/button";
 import { BarChart3, Menu, X } from "lucide-react";
 import { useProperties } from "@/hooks/useProperties";
@@ -147,8 +147,6 @@ export default function MapPage() {
           onFilterChange={handleFilterChange}
           onClearFilters={clearFilters}
           properties={properties || []}
-          aiResponse={aiResponse}
-          onCloseAIResponse={() => setAIResponse(null)}
         />
       </div>
 
@@ -186,7 +184,15 @@ export default function MapPage() {
         </div>
       )}
 
-      {/* AI Response in Sidebar - removed blocking overlay */}
+      {/* AI Report Card - Draggable */}
+      {aiResponse && (
+        <AIReportCard
+          query={aiResponse.query}
+          response={aiResponse.response}
+          relevantPropertyIds={aiResponse.relevantPropertyIds}
+          onClose={() => setAIResponse(null)}
+        />
+      )}
 
       {/* Property Modal */}
       {selectedProperty && (
