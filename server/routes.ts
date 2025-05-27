@@ -55,16 +55,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get all properties for context
       const allProperties = await storage.getAllProperties();
       
-      // Create context for AI
+      // Create context for AI with geographical data
       const propertyContext = allProperties.map(p => ({
         id: p.id,
         name: p.name,
         type: p.type,
+        lat: parseFloat(p.lat),
+        lng: parseFloat(p.lng),
         area: p.area,
         pricePerSqm: p.pricePerSqm,
         nearestBts: p.nearestBts,
-        btsDistance: p.btsDistance
+        btsDistance: p.btsDistance,
+        address: p.address
       }));
+
+      // Check if query contains coordinates
+      const coordRegex = /(\d+\.?\d*),?\s*(\d+\.?\d*)/;
+      const coordMatch = query.match(coordRegex);
+      let locationContext = "";
+      
+      if (coordMatch) {
+        const queryLat = parseFloat(coordMatch[1]);
+        const queryLng = parseFloat(coordMatch[2]);
+        
+        // Calculate distances to properties for location analysis
+        const nearbyProperties = propertyContext.map(p => {
+          const distance = Math.sqrt(
+            Math.pow((p.lat - queryLat) * 111320, 2) + 
+            Math.pow((p.lng - queryLng) * 111320 * Math.cos(queryLat * Math.PI / 180), 2)
+          );
+          return { ...p, distance };
+        }).filter(p => p.distance <= 1000).sort((a, b) => a.distance - b.distance);
+
+        locationContext = `
+COORDINATE ANALYSIS REQUEST for ${queryLat}, ${queryLng}:
+- This location is in Bangkok's Sathorn district
+- Nearby properties within 1km: ${JSON.stringify(nearbyProperties.slice(0, 5))}
+- Provide location description, area characteristics, and nearby amenities
+        `;
+      }
 
       // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       const completion = await openai.chat.completions.create({
@@ -75,6 +104,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             content: `You are an expert real estate AI assistant specializing in Bangkok's prestigious Sathorn district. You have deep knowledge of luxury properties, market trends, and location advantages. Provide insightful, professional responses that showcase your expertise.
 
 Available properties: ${JSON.stringify(propertyContext)}
+${locationContext}
 
 RESPONSE GUIDELINES:
 - Be conversational yet professional, like a top real estate consultant
@@ -84,12 +114,22 @@ RESPONSE GUIDELINES:
 - Mention market context and investment potential when appropriate
 - Be enthusiastic about exceptional properties
 
+SPECIAL HANDLING FOR COORDINATES/LOCATIONS:
+- If coordinates are provided, analyze the exact location and describe:
+  1. What type of area it is (business district, residential, mixed-use)
+  2. Key landmarks and characteristics nearby
+  3. Transportation access (BTS stations, major roads)
+  4. Property types and price ranges in the vicinity
+  5. Investment potential and market trends for that specific location
+
 QUERY INTERPRETATION:
 - "Near" = within 500m walking distance
 - "Expensive/Premium" = above ₿400,000/sqm
 - "Affordable" = below ₿350,000/sqm  
 - "Large" = above 300 sqm for residential, 4000 sqm for office
 - Consider BTS accessibility as a major value factor
+- Lat/Long coordinates: Provide comprehensive location analysis
+- Location names: Identify and describe the area characteristics and nearby properties
 
 Respond in JSON format:
 {
