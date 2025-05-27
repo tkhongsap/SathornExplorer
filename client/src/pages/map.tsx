@@ -147,6 +147,8 @@ export default function MapPage() {
           onFilterChange={handleFilterChange}
           onClearFilters={clearFilters}
           properties={properties || []}
+          aiResponse={aiResponse}
+          onCloseAIResponse={() => setAIResponse(null)}
         />
       </div>
 
@@ -184,14 +186,7 @@ export default function MapPage() {
         </div>
       )}
 
-      {/* AI Response Panel */}
-      {aiResponse && (
-        <AIResponsePanel
-          query={aiResponse.query}
-          response={aiResponse.response}
-          onClose={() => setAIResponse(null)}
-        />
-      )}
+      {/* AI Response in Sidebar - removed blocking overlay */}
 
       {/* Property Modal */}
       {selectedProperty && (

@@ -12,13 +12,21 @@ interface PropertySidebarProps {
   onFilterChange: (filters: PropertyFilter) => void;
   onClearFilters: () => void;
   properties: Property[];
+  aiResponse?: {
+    query: string;
+    response: string;
+    relevantPropertyIds: number[];
+  } | null;
+  onCloseAIResponse?: () => void;
 }
 
 export default function PropertySidebar({
   filters,
   onFilterChange,
   onClearFilters,
-  properties
+  properties,
+  aiResponse,
+  onCloseAIResponse
 }: PropertySidebarProps) {
   const [localFilters, setLocalFilters] = useState<PropertyFilter>(filters);
 
@@ -65,6 +73,41 @@ export default function PropertySidebar({
 
   return (
     <Card className="h-full flex flex-col shadow-lg border border-gray-200">
+      {/* AI Response Section */}
+      {aiResponse && (
+        <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border-b border-gray-200">
+          <div className="p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-2">
+                <div className="w-6 h-6 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs">AI</span>
+                </div>
+                <h3 className="font-medium text-gray-800">Search Results</h3>
+              </div>
+              {onCloseAIResponse && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={onCloseAIResponse}
+                  className="h-6 w-6 text-gray-400 hover:text-gray-600"
+                >
+                  <span className="text-sm">×</span>
+                </Button>
+              )}
+            </div>
+            <div className="text-xs text-gray-600 mb-2 font-medium">
+              "{aiResponse.query}"
+            </div>
+            <div className="text-sm text-gray-700 leading-relaxed max-h-32 overflow-y-auto">
+              {aiResponse.response}
+            </div>
+            <div className="mt-3 text-xs text-primary font-medium">
+              {aiResponse.relevantPropertyIds.length} properties found
+            </div>
+          </div>
+        </div>
+      )}
+
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold text-gray-800">
           Property Filters
