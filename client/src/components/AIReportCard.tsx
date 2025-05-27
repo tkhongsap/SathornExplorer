@@ -120,10 +120,23 @@ export default function AIReportCard({ query, response, relevantPropertyIds, onC
           {/* AI Response */}
           <div className="bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-4">
             <div className="text-xs font-medium text-gray-500 mb-2">AI ANALYSIS</div>
-            <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+            <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap max-h-48 overflow-y-auto">
               {response}
             </div>
           </div>
+
+          {/* Property Highlights for Coordinate Searches */}
+          {relevantPropertyIds.length > 0 && (
+            <div className="bg-gray-50 rounded-lg p-3">
+              <div className="text-xs font-medium text-gray-500 mb-2">NEARBY PROPERTIES</div>
+              <div className="text-xs text-blue-600 font-medium">
+                {relevantPropertyIds.length} properties highlighted on map
+              </div>
+              <div className="text-xs text-gray-600 mt-1">
+                Properties shown with enhanced markers for easy identification
+              </div>
+            </div>
+          )}
 
           {/* Quick Stats */}
           <div className="grid grid-cols-2 gap-3">

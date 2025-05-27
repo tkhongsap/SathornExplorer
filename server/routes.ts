@@ -95,9 +95,9 @@ COORDINATE ANALYSIS REQUEST for ${queryLat}, ${queryLng}:
         `;
       }
 
-      // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+      // Using GPT-4o-mini for faster, cost-effective responses while maintaining quality
       const completion = await openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o-mini",
         messages: [
           {
             role: "system",
@@ -115,12 +115,14 @@ RESPONSE GUIDELINES:
 - Be enthusiastic about exceptional properties
 
 SPECIAL HANDLING FOR COORDINATES/LOCATIONS:
-- If coordinates are provided, analyze the exact location and describe:
-  1. What type of area it is (business district, residential, mixed-use)
-  2. Key landmarks and characteristics nearby
-  3. Transportation access (BTS stations, major roads)
-  4. Property types and price ranges in the vicinity
-  5. Investment potential and market trends for that specific location
+- If coordinates are provided, analyze the exact location and provide:
+  1. Location description and area characteristics
+  2. List specific nearby properties with names, types, and prices
+  3. BTS accessibility and transportation links
+  4. Market analysis for that precise location
+  5. Investment recommendations
+- Always highlight 3-5 specific properties closest to the coordinates
+- Include property names, distances, and key selling points
 
 QUERY INTERPRETATION:
 - "Near" = within 500m walking distance
