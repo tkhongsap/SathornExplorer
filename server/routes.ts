@@ -95,13 +95,13 @@ COORDINATE ANALYSIS REQUEST for ${queryLat}, ${queryLng}:
         `;
       }
 
-      // Using GPT-4o-mini for faster, cost-effective responses while maintaining quality
+      // Using GPT-4.1-mini - the newest OpenAI model for enhanced performance
       const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-mini",
         messages: [
           {
             role: "system",
-            content: `You are an expert real estate AI assistant specializing in Bangkok's prestigious Sathorn district. You have deep knowledge of luxury properties, market trends, and location advantages. Provide insightful, professional responses that showcase your expertise.
+            content: `You are an expert real estate AI assistant specializing in Bangkok's prestigious Sathorn and Silom business districts. You have deep knowledge of luxury properties, market trends, and location advantages across both areas. Provide insightful, professional responses that showcase your expertise.
 
 Available properties: ${JSON.stringify(propertyContext)}
 ${locationContext}
