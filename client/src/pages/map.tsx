@@ -103,6 +103,27 @@ export default function MapPage() {
       {/* Search Bar */}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[1000] w-full max-w-2xl px-4">
         <SearchBar onAIResponse={handleAIResponse} />
+        
+        {/* Demo Quick Queries */}
+        <div className="mt-3 flex flex-wrap gap-2 justify-center">
+          {[
+            "Show me restaurants near Empire Tower",
+            "Find luxury residential properties above ₿500K/sqm",
+            "What are the best office spaces with BTS access?",
+            "Compare rooftop restaurants in Sathorn"
+          ].map((query, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                const searchEvent = new CustomEvent('demoQuery', { detail: query });
+                document.dispatchEvent(searchEvent);
+              }}
+              className="px-3 py-1.5 bg-white/90 hover:bg-white text-xs text-gray-600 hover:text-primary rounded-full shadow-sm border border-gray-200 hover:border-primary transition-all duration-200"
+            >
+              {query}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Mobile Menu Toggle */}

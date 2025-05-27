@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Mic, Loader2 } from "lucide-react";
@@ -18,6 +18,45 @@ export default function SearchBar({ onAIResponse }: SearchBarProps) {
   const [isListening, setIsListening] = useState(false);
   const { mutate: searchAI, isPending } = useAISearch();
   const { toast } = useToast();
+
+  // Listen for demo query events
+  useEffect(() => {
+    const handleDemoQuery = (event: CustomEvent) => {
+      setQuery(event.detail);
+      // Auto-trigger search after a brief delay for demo effect
+      setTimeout(() => {
+        searchAI(
+          { query: event.detail },
+          {
+            onSuccess: (data) => {
+              onAIResponse({
+                query: event.detail,
+                response: data.response,
+                relevantPropertyIds: data.relevantPropertyIds || []
+              });
+              toast({
+                title: "Search Complete",
+                description: `Found ${data.relevantPropertyIds?.length || 0} relevant properties.`
+              });
+            },
+            onError: (error) => {
+              console.error("Search error:", error);
+              toast({
+                title: "Search Failed",
+                description: "Unable to process your query. Please try again.",
+                variant: "destructive"
+              });
+            }
+          }
+        );
+      }, 500);
+    };
+
+    document.addEventListener('demoQuery', handleDemoQuery as EventListener);
+    return () => {
+      document.removeEventListener('demoQuery', handleDemoQuery as EventListener);
+    };
+  }, [searchAI, onAIResponse, toast]);
 
   const handleSearch = () => {
     if (!query.trim()) {
@@ -115,7 +154,7 @@ export default function SearchBar({ onAIResponse }: SearchBarProps) {
         <Search className="text-gray-400 ml-4 mr-3 h-5 w-5" />
         <Input
           type="text"
-          placeholder="Ask about Sathorn properties... (e.g., 'Show restaurants near Empire Tower')"
+          placeholder="Ask me anything about Sathorn properties..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyPress={handleKeyPress}
