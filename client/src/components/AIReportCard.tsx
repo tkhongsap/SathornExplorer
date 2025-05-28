@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X, Bot, Move, Maximize2, Minimize2, Star, MapPin, TrendingUp } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 interface AIReportCardProps {
   query: string;
@@ -157,7 +158,7 @@ export default function AIReportCard({ query, response, relevantPropertyIds, onC
                 <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">AI Analysis</span>
               </div>
               <div 
-                className={`text-sm text-gray-700 leading-relaxed whitespace-pre-wrap ${
+                className={`text-sm text-gray-700 leading-relaxed ${
                   isExpanded ? 'max-h-none' : 'max-h-32 overflow-y-auto'
                 }`}
                 style={{ 
@@ -165,7 +166,11 @@ export default function AIReportCard({ query, response, relevantPropertyIds, onC
                   scrollbarColor: '#cbd5e1 #f1f5f9'
                 }}
               >
-                {response}
+                <ReactMarkdown 
+                  className="prose prose-sm max-w-none prose-headings:text-gray-800 prose-strong:text-gray-900 prose-p:text-gray-700"
+                >
+                  {response}
+                </ReactMarkdown>
               </div>
             </div>
 
