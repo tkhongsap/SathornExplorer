@@ -107,10 +107,10 @@ export default function MapPage() {
         {/* Demo Quick Queries */}
         <div className="mt-3 flex flex-wrap gap-2 justify-center">
           {[
-            "Show me restaurants near Empire Tower",
-            "13.7240, 100.5347",
-            "Find luxury residential properties above ₿500K/sqm", 
-            "What's at location 13.7200, 100.5330?"
+            "Show me offices in Silom financial district",
+            "13.7245, 100.5345",
+            "Compare Sathorn vs Silom properties", 
+            "Find restaurants near Sala Daeng BTS"
           ].map((query, index) => (
             <button
               key={index}

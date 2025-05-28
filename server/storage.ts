@@ -396,7 +396,156 @@ export class MemStorage implements IStorage {
       }
     ];
 
+    // Silom Area Properties - Financial Heart of Bangkok
+    const silomProperties = [
+      {
+        name: "Silom Complex",
+        type: "office",
+        lat: "13.7245",
+        lng: "100.5345",
+        area: 8500,
+        pricePerSqm: 420000,
+        description: "Premium office complex in the heart of Silom business district with cutting-edge facilities and financial sector proximity.",
+        address: "191 Silom Road, Bang Rak, Bangkok",
+        nearestBts: "Sala Daeng",
+        btsDistance: 200,
+        yearBuilt: 2018,
+        floors: 35
+      },
+      {
+        name: "Dusit Thani Office Tower",
+        type: "office",
+        lat: "13.7208",
+        lng: "100.5328",
+        area: 12000,
+        pricePerSqm: 480000,
+        description: "Iconic luxury office tower at Silom-Rama IV intersection, premium business address with international corporations.",
+        address: "946 Rama IV Road, Silom, Bangkok",
+        nearestBts: "Sala Daeng",
+        btsDistance: 150,
+        yearBuilt: 2019,
+        floors: 40
+      },
+      {
+        name: "CP Tower",
+        type: "office",
+        lat: "13.7218",
+        lng: "100.5342",
+        area: 9800,
+        pricePerSqm: 390000,
+        description: "Prestigious office tower housing major corporations in Silom financial district with excellent infrastructure.",
+        address: "313 Silom Road, Bang Rak, Bangkok",
+        nearestBts: "Chong Nonsi",
+        btsDistance: 300,
+        yearBuilt: 2016,
+        floors: 32
+      },
+      {
+        name: "BTS Sala Daeng Office",
+        type: "office",
+        lat: "13.7252",
+        lng: "100.5338",
+        area: 7200,
+        pricePerSqm: 350000,
+        description: "Modern office space directly connected to BTS Sala Daeng station with seamless transportation access.",
+        address: "Silom Road, Sala Daeng Junction, Bangkok",
+        nearestBts: "Sala Daeng",
+        btsDistance: 50,
+        yearBuilt: 2020,
+        floors: 28
+      },
+      {
+        name: "Thaniya Plaza Residences",
+        type: "residential",
+        lat: "13.7235",
+        lng: "100.5348",
+        area: 180,
+        pricePerSqm: 520000,
+        description: "Luxury high-rise condominiums in prestigious Thaniya area with stunning city views and premium amenities.",
+        address: "52 Thaniya Road, Silom, Bangkok",
+        nearestBts: "Sala Daeng",
+        btsDistance: 180,
+        yearBuilt: 2021,
+        floors: 45
+      },
+      {
+        name: "Silom Suites",
+        type: "residential",
+        lat: "13.7228",
+        lng: "100.5355",
+        area: 220,
+        pricePerSqm: 480000,
+        description: "Elegant residential tower offering premium living in Silom business district with world-class facilities.",
+        address: "77 Silom Road, Bang Rak, Bangkok",
+        nearestBts: "Chong Nonsi",
+        btsDistance: 250,
+        yearBuilt: 2019,
+        floors: 38
+      },
+      {
+        name: "Patpong Entertainment Complex",
+        type: "restaurant",
+        lat: "13.7241",
+        lng: "100.5351",
+        area: 800,
+        pricePerSqm: 280000,
+        description: "Historic entertainment and dining complex in famous Patpong district with vibrant nightlife and international cuisine.",
+        address: "Patpong Road, Silom, Bangkok",
+        nearestBts: "Sala Daeng",
+        btsDistance: 120,
+        yearBuilt: 2017,
+        floors: 8
+      },
+      {
+        name: "Silom Village Restaurant",
+        type: "restaurant",
+        lat: "13.7220",
+        lng: "100.5360",
+        area: 450,
+        pricePerSqm: 320000,
+        description: "Upscale dining establishment serving authentic Thai cuisine in traditional cultural village setting.",
+        address: "286 Silom Road, Bang Rak, Bangkok",
+        nearestBts: "Chong Nonsi",
+        btsDistance: 200,
+        yearBuilt: 2018,
+        floors: 4
+      },
+      {
+        name: "Robinson Bang Rak Food Court",
+        type: "restaurant",
+        lat: "13.7255",
+        lng: "100.5332",
+        area: 1200,
+        pricePerSqm: 250000,
+        description: "Large food court and retail dining complex serving diverse international cuisine with shopping integration.",
+        address: "259 Silom Road, Bang Rak, Bangkok",
+        nearestBts: "Sala Daeng",
+        btsDistance: 100,
+        yearBuilt: 2020,
+        floors: 6
+      },
+      {
+        name: "State Tower Sky Restaurant",
+        type: "restaurant",
+        lat: "13.7198",
+        lng: "100.5315",
+        area: 600,
+        pricePerSqm: 450000,
+        description: "World-renowned rooftop dining venue with panoramic Bangkok views from iconic State Tower dome.",
+        address: "1055 Silom Road, Bang Rak, Bangkok",
+        nearestBts: "Saphan Taksin",
+        btsDistance: 400,
+        yearBuilt: 2021,
+        floors: 1
+      }
+    ];
+
+    // Initialize both Sathorn and Silom properties
     for (const property of sathornProperties) {
+      await this.createProperty(property);
+    }
+    
+    for (const property of silomProperties) {
       await this.createProperty(property);
     }
   }
